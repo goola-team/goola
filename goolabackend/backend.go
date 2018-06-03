@@ -214,7 +214,6 @@ func CreateConsensusEngine(ctx *node.ServiceContext, chainConfig *params.ChainCo
 
 	engine := dpos.New(dpos.Config{
 	})
-	engine.SetThreads(-1) // Disable CPU mining
 	return engine
 }
 

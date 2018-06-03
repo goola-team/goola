@@ -24,7 +24,7 @@ import (
 )
 
 
-func (ethash *Ethash) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error) {
+func (ethash *dops) Seal(chain consensus.ChainReader, block *types.Block, stop <-chan struct{}) (*types.Block, error) {
 	var (
 		header  = block.Header()
 	)

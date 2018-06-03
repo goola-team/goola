@@ -102,7 +102,7 @@ func (fullGoola *FullGoola) AddLesServer(ls LesServer) {
 // initialisation of the common FullGoola object)
 func New(ctx *node.ServiceContext, config *Config) (*FullGoola, error) {
 	if config.SyncMode == downloader.LightSync {
-		return nil, errors.New("can't run goolabackend.Ethereum in light sync mode, use les.LightEthereum")
+		return nil, errors.New("can't run goolabackend.goola in light sync mode, use les.LightGoola")
 	}
 	if !config.SyncMode.IsValid() {
 		return nil, fmt.Errorf("invalid sync mode %d", config.SyncMode)

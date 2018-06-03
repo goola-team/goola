@@ -192,7 +192,7 @@ var (
 		Name:  "dashboard",
 		Usage: "Enable the dashboard",
 	}
-	// Ethash settings
+	// dops settings
 	EthashCacheDirFlag = DirectoryFlag{
 		Name:  "dpos.cachedir",
 		Usage: "Directory to store the dpos verification caches (default = inside the datadir)",

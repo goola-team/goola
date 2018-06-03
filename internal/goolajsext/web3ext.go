@@ -465,10 +465,6 @@ goolajs._extend({
 			params: 1,
 			inputFormatter: [goolajs._extend.utils.fromDecimal]
 		}),
-		new goolajs._extend.Method({
-			name: 'getHashrate',
-			call: 'miner_getHashrate'
-		}),
 	],
 	properties: []
 });

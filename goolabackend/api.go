@@ -31,7 +31,6 @@ import (
 	"github.com/goola-team/goola/core/state"
 	"github.com/goola-team/goola/core/types"
 	"github.com/goola-team/goola/log"
-	"github.com/goola-team/goola/miner"
 	"github.com/goola-team/goola/params"
 	"github.com/goola-team/goola/rlp"
 	"github.com/goola-team/goola/rpc"
@@ -57,26 +56,6 @@ func (api *PublicEthereumAPI) Goolase() (common.Address, error) {
 // Coinbase is the address that mining rewards will be send to (alias for Goolase)
 func (api *PublicEthereumAPI) Coinbase() (common.Address, error) {
 	return api.Goolase()
-}
-
-// Hashrate returns the POW hashrate
-func (api *PublicEthereumAPI) Hashrate() hexutil.Uint64 {
-	return hexutil.Uint64(api.e.Miner().HashRate())
-}
-
-// PublicMinerAPI provides an API to control the miner.
-// It offers only methods that operate on data that pose no security risk when it is publicly accessible.
-type PublicMinerAPI struct {
-	e     *FullGoola
-	agent *miner.RemoteAgent
-}
-
-// NewPublicMinerAPI create a new PublicMinerAPI instance.
-func NewPublicMinerAPI(e *FullGoola) *PublicMinerAPI {
-	agent := miner.NewRemoteAgent(e.BlockChain(), e.Engine())
-	e.Miner().Register(agent)
-
-	return &PublicMinerAPI{e, agent}
 }
 
 
@@ -158,11 +137,6 @@ func (api *PrivateMinerAPI) SetGasPrice(gasPrice hexutil.Big) bool {
 func (api *PrivateMinerAPI) SetGoolase(etherbase common.Address) bool {
 	api.e.SetEtherbase(etherbase)
 	return true
-}
-
-// GetHashrate returns the current hashrate of the miner.
-func (api *PrivateMinerAPI) GetHashrate() uint64 {
-	return uint64(api.e.miner.HashRate())
 }
 
 // PrivateAdminAPI is the collection of Goola full node-related APIs

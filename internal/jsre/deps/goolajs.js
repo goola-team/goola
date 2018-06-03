@@ -5443,11 +5443,6 @@ var properties = function () {
             getter: 'gla_mining'
         }),
         new Property({
-            name: 'hashrate',
-            getter: 'gla_hashrate',
-            outputFormatter: utils.toDecimal
-        }),
-        new Property({
             name: 'syncing',
             getter: 'gla_syncing',
             outputFormatter: formatters.outputSyncingFormatter

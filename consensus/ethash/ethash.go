@@ -29,7 +29,6 @@ import (
 	"github.com/goola-team/goola/log"
 	"github.com/goola-team/goola/rpc"
 	"github.com/hashicorp/golang-lru/simplelru"
-	metrics "github.com/rcrowley/go-metrics"
 )
 
 var ErrInvalidDumpMagic = errors.New("invalid dump magic")
@@ -130,7 +129,6 @@ type Ethash struct {
 	rand     *rand.Rand    // Properly seeded random source for nonces
 	threads  int           // Number of threads to mine on if mining
 	update   chan struct{} // Notification channel to update mining parameters
-	hashrate metrics.Meter // Meter tracking the average hashrate
 
 	// The fields below are hooks for testing
 	shared    *Ethash       // Shared PoW verifier to avoid cache regeneration
@@ -215,11 +213,6 @@ func (ethash *Ethash) SetThreads(threads int) {
 	}
 }
 
-// Hashrate implements PoW, returning the measured rate of the search invocations
-// per second over the last minute.
-func (ethash *Ethash) Hashrate() float64 {
-	return ethash.hashrate.Rate1()
-}
 
 // APIs implements consensus.Engine, returning the user facing RPC APIs. Currently
 // that is empty.

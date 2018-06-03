@@ -233,11 +233,6 @@ func (fullGoola *FullGoola) APIs() []rpc.API {
 		}, {
 			Namespace: "goolabackend",
 			Version:   "1.0",
-			Service:   NewPublicMinerAPI(fullGoola),
-			Public:    true,
-		}, {
-			Namespace: "goolabackend",
-			Version:   "1.0",
 			Service:   downloader.NewPublicDownloaderAPI(fullGoola.protocolManager.downloader, fullGoola.eventMux),
 			Public:    true,
 		}, {

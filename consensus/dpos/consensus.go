@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with the go-ethereum library. If not, see <http://www.gnu.org/licenses/>.
 
-package ethash
+package dpos
 
 import (
 	"errors"
@@ -54,7 +54,7 @@ func (ethash *Ethash) Author(header *types.Header) (common.Address, error) {
 }
 
 // VerifyHeader checks whether a header conforms to the consensus rules of the
-// stock Goola ethash engine.
+// stock Goola dpos engine.
 func (ethash *Ethash) VerifyHeader(chain consensus.ChainReader, header *types.Header, seal bool) error {
 	// Short circuit if the header is known, or it's parent not
 	number := header.Number.Uint64()
@@ -153,7 +153,7 @@ func (ethash *Ethash) verifyHeaderWorker(chain consensus.ChainReader, headers []
 
 
 // verifyHeader checks whether a header conforms to the consensus rules of the
-// stock Goola ethash engine.
+// stock Goola dpos engine.
 // See YP section 4.3.4. "Block Header Validity"
 func (ethash *Ethash) verifyHeader(chain consensus.ChainReader, header, parent *types.Header, seal bool) error {
 	// Ensure that the header's extra-data section is of a reasonable size
@@ -228,8 +228,8 @@ func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Head
 		return nil
 
 	//// If we're running a shared PoW, delegate verification to it
-	//if ethash.shared != nil {
-	//	return ethash.shared.VerifySeal(chain, header)
+	//if dpos.shared != nil {
+	//	return dpos.shared.VerifySeal(chain, header)
 	//}
 	// Sanity check that the block number is below the lookup table size (60M blocks)
 	//number := header.Number.Uint64()
@@ -243,9 +243,9 @@ func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Head
 	//}
 
 	// Recompute the digest and PoW value and verify against the header
-	//cache := ethash.cache(number)
+	//cache := dpos.cache(number)
 	//size := datasetSize(number)
-	//if ethash.config.PowMode == ModeTest {
+	//if dpos.config.PowMode == ModeTest {
 	//	size = 32 * 1024
 	//}
 	//digest, result := hashimotoLight(size, cache.cache, header.HashNoNonce().Bytes(), header.Nonce.Uint64())
@@ -264,7 +264,7 @@ func (ethash *Ethash) VerifySeal(chain consensus.ChainReader, header *types.Head
 }
 
 // Prepare implements consensus.Engine, initializing the difficulty field of a
-// header to conform to the ethash protocol. The changes are done inline.
+// header to conform to the dpos protocol. The changes are done inline.
 func (ethash *Ethash) Prepare(chain consensus.ChainReader, header *types.Header) error {
 	parent := chain.GetHeader(header.ParentHash, header.Number.Uint64()-1)
 	if parent == nil {

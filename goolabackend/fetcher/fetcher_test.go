@@ -25,7 +25,7 @@ import (
 	"time"
 
 	"github.com/goola-team/goola/common"
-	"github.com/goola-team/goola/consensus/ethash"
+	"github.com/goola-team/goola/consensus/dpos"
 	"github.com/goola-team/goola/core"
 	"github.com/goola-team/goola/core/types"
 	"github.com/goola-team/goola/crypto"
@@ -45,7 +45,7 @@ var (
 // the returned hash chain is ordered head->parent. In addition, every 3rd block
 // contains a transaction
 func makeChain(n int, seed byte, parent *types.Block) ([]common.Hash, map[common.Hash]*types.Block) {
-	blocks, _ := core.GenerateChain(params.TestChainConfig, parent, ethash.NewFaker(), testdb, n, func(i int, block *core.BlockGen) {
+	blocks, _ := core.GenerateChain(params.TestChainConfig, parent, dpos.NewFaker(), testdb, n, func(i int, block *core.BlockGen) {
 		block.SetCoinbase(common.Address{seed})
 
 		// If the block number is multiple of 3, send a bonus transaction to the miner

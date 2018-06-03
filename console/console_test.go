@@ -27,7 +27,7 @@ import (
 	"time"
 
 	"github.com/goola-team/goola/common"
-	"github.com/goola-team/goola/consensus/ethash"
+	"github.com/goola-team/goola/consensus/dpos"
 	"github.com/goola-team/goola/core"
 	"github.com/goola-team/goola/goolabackend"
 	"github.com/goola-team/goola/internal/jsre"

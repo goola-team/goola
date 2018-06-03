@@ -27,7 +27,7 @@ import (
 
 	goola "github.com/goola-team/goola"
 	"github.com/goola-team/goola/common"
-	"github.com/goola-team/goola/consensus/ethash"
+	"github.com/goola-team/goola/consensus/dpos"
 	"github.com/goola-team/goola/core"
 	"github.com/goola-team/goola/core/bloombits"
 	"github.com/goola-team/goola/core/types"
@@ -138,7 +138,7 @@ func TestBlockSubscription(t *testing.T) {
 		backend     = &testBackend{mux, db, 0, txFeed, rmLogsFeed, logsFeed, chainFeed}
 		api         = NewPublicFilterAPI(backend, false)
 		genesis     = new(core.Genesis).MustCommit(db)
-		chain, _    = core.GenerateChain(params.TestChainConfig, genesis, ethash.NewFaker(), db, 10, func(i int, gen *core.BlockGen) {})
+		chain, _    = core.GenerateChain(params.TestChainConfig, genesis, dpos.NewFaker(), db, 10, func(i int, gen *core.BlockGen) {})
 		chainEvents = []core.ChainEvent{}
 	)
 

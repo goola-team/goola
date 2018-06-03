@@ -29,7 +29,7 @@ import (
 	"github.com/goola-team/goola/common"
 	"github.com/goola-team/goola/common/hexutil"
 	"github.com/goola-team/goola/consensus"
-	"github.com/goola-team/goola/consensus/clique"
+	"github.com/goola-team/goola/consensus/dpos"
 	"github.com/goola-team/goola/core"
 	"github.com/goola-team/goola/core/bloombits"
 	"github.com/goola-team/goola/core/types"
@@ -211,8 +211,11 @@ func CreateDB(ctx *node.ServiceContext, config *Config, name string) (gooladb.Da
 
 // CreateConsensusEngine creates the required type of consensus engine instance for an Goola service
 func CreateConsensusEngine(ctx *node.ServiceContext, chainConfig *params.ChainConfig, db gooladb.Database) consensus.Engine {
-	// If proof-of-authority is requested, set it up
-		return clique.New(chainConfig.Clique, db)
+
+	engine := dpos.New(dpos.Config{
+	})
+	engine.SetThreads(-1) // Disable CPU mining
+	return engine
 }
 
 // APIs returns the collection of RPC services the Goola package offers.
@@ -309,14 +312,14 @@ func (fullGoola *FullGoola) StartMining(local bool) error {
 		log.Error("Cannot start mining without goolase", "err", err)
 		return fmt.Errorf("etherbase missing: %v", err)
 	}
-	if clique, ok := fullGoola.engine.(*clique.Clique); ok {
-		wallet, err := fullGoola.accountManager.Find(accounts.Account{Address: eb})
-		if wallet == nil || err != nil {
-			log.Error("Goolase account unavailable locally", "err", err)
-			return fmt.Errorf("signer missing: %v", err)
-		}
-		clique.Authorize(eb, wallet.SignHash)
-	}
+	//if clique, ok := fullGoola.engine.(*clique.Clique); ok {
+	//	wallet, err := fullGoola.accountManager.Find(accounts.Account{Address: eb})
+	//	if wallet == nil || err != nil {
+	//		log.Error("Goolase account unavailable locally", "err", err)
+	//		return fmt.Errorf("signer missing: %v", err)
+	//	}
+	//	clique.Authorize(eb, wallet.SignHash)
+	//}
 	if local {
 		// If local (CPU) mining is started, we can disable the transaction rejection
 		// mechanism introduced to speed sync times. CPU mining on mainnet is ludicrous

@@ -33,12 +33,12 @@ import (
 	"github.com/goola-team/goola/common"
 	"github.com/goola-team/goola/common/fdlimit"
 	"github.com/goola-team/goola/consensus"
-	"github.com/goola-team/goola/consensus/clique"
 	"github.com/goola-team/goola/core"
 	"github.com/goola-team/goola/core/state"
 	"github.com/goola-team/goola/core/vm"
 	"github.com/goola-team/goola/crypto"
 	"github.com/goola-team/goola/goolabackend"
+	"github.com/goola-team/goola/consensus/dpos"
 	"github.com/goola-team/goola/goolabackend/downloader"
 	"github.com/goola-team/goola/goolabackend/gasprice"
 	"github.com/goola-team/goola/gooladb"
@@ -194,8 +194,8 @@ var (
 	}
 	// Ethash settings
 	EthashCacheDirFlag = DirectoryFlag{
-		Name:  "ethash.cachedir",
-		Usage: "Directory to store the ethash verification caches (default = inside the datadir)",
+		Name:  "dpos.cachedir",
+		Usage: "Directory to store the dpos verification caches (default = inside the datadir)",
 	}
 
 	// Transaction pool settings
@@ -1141,8 +1141,10 @@ func MakeChain(ctx *cli.Context, stack *node.Node) (chain *core.BlockChain, chai
 		Fatalf("%v", err)
 	}
 	var engine consensus.Engine
-	if config.Clique != nil {
-		engine = clique.New(config.Clique, chainDb)
+	if !ctx.GlobalBool(FakePoWFlag.Name) {
+		engine = dpos.New(dpos.Config{
+
+		})
 	}
 	if gcmode := ctx.GlobalString(GCModeFlag.Name); gcmode != "full" && gcmode != "archive" {
 		Fatalf("--%s must be either 'full' or 'archive'", GCModeFlag.Name)
